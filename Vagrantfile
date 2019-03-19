@@ -7,13 +7,15 @@
 # Pre-provisioner shell script installs Ansible into the guest and continues
 # to provision rest of the system in the guest. Works also on Windows.
 $script = <<SCRIPT
-if [ ! -f /vagrant_bootstrap_done.info ]; then
+#if [ ! -f /vagrant_bootstrap_done.info ]; then
   sudo yum update
-  sudo yum -y install epel-release ansible git
+  sudo yum -y install epel-release
+  sudo curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+  sudo yum -y install ansible git nodejs
   cd /qvain/ansible
   ansible-playbook -i inventories/local_development -e @./secrets-local.yaml site_provision.yml
   sudo touch /vagrant_bootstrap_done.info
-fi
+#fi
 SCRIPT
 
 
